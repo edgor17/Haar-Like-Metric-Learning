@@ -17,12 +17,16 @@ We first demonstrate our metric on a dataset from "Bacterial community variation
 First we need to generate a Haar-like basis for the phylogeny associated with this dataset. In this case, Greengenes 97 was the reference phylogeny. We use ete toolkit to process .nwk trees. Note that this step only needs to be done once for any phylogenetic tree. For convenience we include a precomputed Haar-like basis for Greengenes 97.
 
 ```
+import scipy
 haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
 ```
 
 Next we map the given feature table onto the reference phylogeny and sort by the label of interest. Here we use host_body_habitat. X is a dataframe holding the count data mapped to the leaves of Greengenes 97. We will need to normalize this before training our model. Y contains the sample labels. mags is the result of applying the Haar-like transformation to the feature table. dic is a dictionary containing an integer mapping of the unique metadata labels of interest, this will be useful for plotting. 
 
 ```
+import pandas as pd
+from ete3 import tree
+from AdaptiveHaarLike import Preprocess
 featuretable=pd.read_csv("/Users/Evan/Desktop/costello/costello.txt", sep='\t')
 metadata=pd.read_csv("/Users/Evan/Desktop/costello/metadata.txt", sep='\t')
 label='host_body_habitat'
