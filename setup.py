@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 setup(
     name='Haar-Like-Metric-Learning',
-    url='https://github.com/edgor17/Sparsify-Ultrametric',
+    url='https://github.com/edgor17/Haar-Like-Metric-Learning',
     author='Evan Gorman',
     author_email='evan.gorman@colorado.edu',
     packages=['Haar-Like-Metric-Learning'],
