@@ -25,21 +25,23 @@ Next we map the given feature table onto the reference phylogeny and sort by the
 
 ```
 import pandas as pd
-from ete3 import tree
-from AdaptiveHaarLike import Preprocess
-featuretable=pd.read_csv("/Users/Evan/Desktop/costello/costello.txt", sep='\t')
-metadata=pd.read_csv("/Users/Evan/Desktop/costello/metadata.txt", sep='\t')
+from ete3 import Tree
+from AdaptiveHaarLike import utils
+featuretable=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/costello.txt", sep='\t')
+metadata=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/metadata.txt", sep='\t')
 label='host_body_habitat'
 labeltype='classification'
 tree = Tree("/Users/Evan/Sparsify_Ultrametric/raw_data/97_otus_unannotated.tree",format=1)
-haarlike=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97haarlike.npz')
-[X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
+haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
+[X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 ```
 
 ## Training 
 Now we are ready to train our metric. First we train a random forest classifier with 500 trees and min_samples_leaf set to 1 (this is recommended for classification tasks). Next we fit our model to the random forest with a desired sparsity s=10.
 
 ```
+from sklearn.ensemble import RandomForestClassifier
+from AdaptiveHaarLike.model import AdaptiveHaarLike
 X=X.div(X.sum(axis=1), axis=0)
 clf=RandomForestClassifier(n_estimators=500,bootstrap=True,min_samples_leaf=1)
 clf.fit(X,Y)
@@ -68,8 +70,8 @@ print(list(dic.keys()))
 Having learned a Haar-like Gram matrix, we are now ready to plot the embedding. Here we set n=7 to plot the 7 dominant Haar-like coordinate loadings. 
 
 ```
-from Haar-Like-Metric-Learning import plotters
-plotters.biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=7,n=7,save=False,path=nan)
+from AdaptiveHaarLike import plotters
+plotters.biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=7,n=7,save=False,path=False)
 ```
 
 ![biplotnormalized](https://github.com/edgor17/Haar-Like-Metric-Learning/assets/87628022/0481569f-74db-4349-aeea-2a8aeda834ae)
@@ -78,7 +80,7 @@ plotters.biplot3dnormalized(model,mags,Y.values.astype(float),'classification',d
 Notice that the loadings align with the various body site clusters in the embedding. To more closely examine some of these important Haar-like coordinates we can make a box plot.
 
 ```
-plotters.boxplot(mags,Y.values,model.coordinates[0:7],dic,dic.keys(),save=False,path=nan)
+plotters.boxplot(mags,Y.values,model.coordinates[0:7],dic,dic.keys(),save=False,path=False)
 ```
 
 ![boxplot](https://github.com/edgor17/Haar-Like-Metric-Learning/assets/87628022/76fc8541-9867-4ea5-a60d-92589eca4c8b)
