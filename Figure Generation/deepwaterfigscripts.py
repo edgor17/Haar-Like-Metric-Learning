@@ -18,19 +18,27 @@ import scipy.sparse
 import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
+from skbio import DistanceMatrix
+from skbio.stats.distance import permanova
+from sklearn.ensemble import RandomForestRegressor
 
-folder='/Users/Evan/Desktop/AdaptHaarFigs/Deepwater'
 
-featuretable=pd.read_csv("/Users/Evan/Desktop/deepwaterfinal/otus.txt", sep='\t')
-metadata=pd.read_csv("/Users/Evan/Desktop/deepwaterfinal/metadata.txt", sep='\t')
+from AdaptiveHaarLike import utils
+from AdaptiveHaarLike.model import AdaptiveHaarLike
+from AdaptiveHaarLike import plotters
+
+folder='Haar-Like-Metric-Learning/Raw_data/Deepwater'
+
+featuretable=pd.read_csv("folder"+"/otus.txt", sep='\t')
+metadata=pd.read_csv("folder"+"/metadata.txt", sep='\t')
 label='distance'
 labeltype='regression'
-tree = Tree("/Users/Evan/Sparsify_Ultrametric/raw_data/97_otus_unannotated.tree",format=1)
-haarlike=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97haarlike.npz')
-pseudodiag=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97pseudodiag.npz')
+tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
+haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
+pseudodiag=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97pseudodiag.npz')
 lambdav=scipy.sparse.csr_matrix.diagonal(pseudodiag)
 
-[X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
+[X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 X=X.div(X.sum(axis=1), axis=0)
 model = AdaptiveHaarLike(labeltype)
 clf=RandomForestRegressor(n_estimators=500,bootstrap=True,min_samples_leaf=11)
@@ -67,33 +75,33 @@ ax.plot(xs, ys, '.', label="Haar-like Importances")
 ax.plot(xs, monoExp(xs, m, t, b), '--', label="Exponential Fit")
 ax.legend()
 plt.title("Haar-like Coordinate Importance Decay")
-plt.savefig(folder+'/importances')
+#plt.savefig(folder+'/importances')
 # inspect the parameters
 print(f"Y = {m} * e^(-{t} * x) + {b}")
-print(f"Tau = {tauSec * 1e6} µs")
+#print(f"Tau = {tauSec * 1e6} µs")
 
 
 truedist=scipy.spatial.distance_matrix(Y.values[:,np.newaxis],Y.values[:,np.newaxis])
 
 Dunifrac=np.load(folder+'/unifracsort.npy')
 dcor(truedist,Dunifrac)
-Unifracplot2d(Dunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='UniFrac',save=True,path=folder+'/unifracplot')
+Unifracplot2d(Dunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='UniFrac',save=False,path=folder+'/unifracplot')
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
 dcor(truedist,Dwunifrac)
-Unifracplot2d(Dwunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='Weighted UniFrac',save=True,path=folder+'/wunifracplot')
+Unifracplot2d(Dwunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='Weighted UniFrac',save=False,path=folder+'/wunifracplot')
 [Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
 dcor(truedist,Dhaar)
-Unifracplot2d(Dhaar,dic=None,y=np.log(Y.values),tasktype='regression',title='Haar-like Distance',save=True,path=folder+'/haardistplot')
+Unifracplot2d(Dhaar,dic=None,y=np.log(Y.values),tasktype='regression',title='Haar-like Distance',save=False,path=folder+'/haardistplot')
 
 
 dcor(truedist,scipy.spatial.distance_matrix(model.ReconstructCoord(mags,4).T,model.ReconstructCoord(mags,4).T))
 
 
-biplot2d(model,mags,np.log(Y.values.astype(float)),'regression',dic,k=4,n=4,save=True,path=folder+'/biplot')
-magplot(mags,np.log(Y.values),model.coordinates[0:4],'Log Distance From Wellhead',True,folder+'/magplot')
+biplot2d(model,mags,np.log(Y.values.astype(float)),'regression',dic,k=4,n=4,save=False,path=False)
+magplot(mags,np.log(Y.values),model.coordinates[0:4],'Log Distance From Wellhead',False,False)
 
 
 plt.scatter(np.linspace(1,len(Y),len(Y)),np.log(Y.values))
 plt.xlabel('Sample Index')
 plt.ylabel('Log of Distance from Wellhead')
-plt.savefig('/Users/Evan/Desktop/AdaptHaarFigs/Deepwater/logdists')
+#plt.savefig('/Users/Evan/Desktop/AdaptHaarFigs/Deepwater/logdists')
