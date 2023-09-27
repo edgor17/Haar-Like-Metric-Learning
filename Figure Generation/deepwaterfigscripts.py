@@ -38,11 +38,11 @@ clf.fit(X,Y)
 model.fit(clf,X,Y,50,mags)
 
 plt.imshow(model.rfgram.todense(),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/rfgram')
+#plt.savefig(folder+'/rfgram')
 plt.imshow(model.Reconstruct(mags,4),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct4')
+#plt.savefig(folder+'/reconstruct4')
 plt.imshow(model.Reconstruct(mags,50),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct50')
+#plt.savefig(folder+'/reconstruct50')
 
 ys=model.importances
 
