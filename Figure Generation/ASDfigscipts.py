@@ -34,7 +34,7 @@ lambdav=scipy.sparse.csr_matrix.diagonal(pseudodiag)
 [X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 X=X.div(X.sum(axis=1), axis=0)
 model = AdaptiveHaarLike(labeltype)
-clf=RandomForestRegressor(n_estimators=500,bootstrap=True,min_samples_leaf=1)
+clf=RandomForestClassifier(n_estimators=500,bootstrap=True,min_samples_leaf=1)
 clf.fit(X,Y)
 model.fit(clf,X,Y,50,mags)
 
