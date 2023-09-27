@@ -31,7 +31,7 @@ featuretable=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/costello.t
 metadata=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/metadata.txt", sep='\t')
 label='host_body_habitat'
 labeltype='classification'
-tree = Tree("/Users/Evan/Sparsify_Ultrametric/raw_data/97_otus_unannotated.tree",format=1)
+tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
 haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
 [X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 ```
