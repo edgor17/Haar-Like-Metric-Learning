@@ -1,6 +1,6 @@
 # Adaptive Haar-like Metric Learning
 
-The Adaptive Haar-like metric learns a data dependent set of Haar-coordinates and associated weights to best represent a given dataset. 
+The Adaptive Haar-like metric learns a data dependent set of Haar-like coordinates and associated weights to best disriminate between microbial environments. For any questions please contact evan.gorman@colorado.edu
 
 ## Installation
 ```
