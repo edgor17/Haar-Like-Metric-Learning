@@ -82,7 +82,7 @@ plotters.Unifracplot3d(Dunifrac,dic=dic,y=Y.values,tasktype='classification',tit
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
 permanova(DistanceMatrix(Dwunifrac),Y.values)
 plotters.Unifracplot3d(Dwunifra,dic=dic,y=Y.values,tasktype='classification',title='Weighted UniFrac',save=False,path=False)
-[Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
+[Dhaar,modmags]=utils.compute_Haar_dist(mags,lambdav)
 permanova(DistanceMatrix(Dhaar),Y.values)
 plotters.Unifracplot3d(Dhaar,dic=dic,y=Y.values,tasktype='classification',title='Haar-like Distance',save=False,path=False)
 
