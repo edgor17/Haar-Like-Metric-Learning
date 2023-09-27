@@ -24,7 +24,7 @@ folder='Haar-Like-Metric-Learning/Raw_data/Costello'
 
 featuretable=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/otus.txt", sep='\t')
 metadata=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/metadata.txt", sep='\t')
-label='diagnosis'
+label='host_body_habitat'
 labeltype='classification'
 tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
 haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
