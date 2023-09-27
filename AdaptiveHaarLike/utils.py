@@ -273,3 +273,37 @@ def PreProcess(featuretable,metadata,labelname,labeltype,tree,haarlike):
     mags=haarlike@abunds
     
     return X,Y,mags,dic
+
+def compute_Haar_dist(mags,weightvec):
+    '''
+
+    Parameters
+    ----------
+    mags : np.ndarray
+        Projection of OTU abundance count onto Haar-like basis
+    weightvec : np.ndarray
+        lamba_v's to use in distance computation
+
+    Returns
+    -------
+    D : np.ndarray
+        Pairwise Haar-like distances
+    modmags : scipy.sparse.csr_matrix
+        rescaled (by weightvec) projections of OTU abundance onto Haar-like basis
+
+    '''
+
+    modmags=np.transpose(np.asarray(mags.todense())* np.sqrt(weightvec[:, np.newaxis]))
+    modmags=scipy.sparse.csr_matrix(modmags)
+
+    N=mags.shape[1]
+
+    #Build Haar-like distance matrix
+    D=np.zeros((N,N))
+    for i in range(N):
+        for j in range(i+1,N):
+            distdiff=((modmags[i,:]-modmags[j,:]))
+            d=scipy.sparse.csr_matrix.sum(scipy.sparse.csr_matrix.power(distdiff,2))
+            D[i,j]=np.sqrt(d)        
+    D=D+np.transpose(D)
+    return D, modmags
