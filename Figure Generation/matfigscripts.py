@@ -78,7 +78,7 @@ plotters.Unifracplot2d(Dunifrac,dic=None,y=Y.values,tasktype='regression',title=
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
 utils.dcor(truedist,Dwunifrac)
 plotters.Unifracplot2d(Dwunifrac,dic=None,y=Y.values,tasktype='regression',title='Weighted UniFrac',save=False,path=folder+'/wunifracplot')
-[Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
+[Dhaar,modmags]=utils.compute_Haar_dist(mags,lambdav)
 utils.dcor(truedist,Dhaar)
 plotters.Unifracplot2d(Dhaar,dic=None,y=Y.values,tasktype='regression',title='Haar-like Distance',save=False,path=folder+'/haardistplot')
 
