@@ -90,7 +90,7 @@ Dadapthaar=scipy.spatial.distance_matrix(model.ReconstructCoord(mags,3).T,model.
 permanova(DistanceMatrix(Dadapthaar),Y.values)
 
 plotters.biplot3d(model,mags,Y.values.astype(float),'classification',dic,k=3,n=3,save=False,path=False)
-#biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=10,n=3,save=False,path=False)
+plotters.biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=3,n=3,save=False,path=False)
 
 plotters.boxplot(mags,Y.values,model.coordinates[0:3],dic,dic.keys(),False,False)
 
