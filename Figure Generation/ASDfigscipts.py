@@ -12,18 +12,22 @@ import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
 
-folder='/Users/Evan/Desktop/AdaptHaarFigs/ASD'
+from AdaptiveHaarLike import utils
+from AdaptiveHaarLike.model import AdaptiveHaarLike
+from AdaptiveHaarLike import plotters
 
-featuretable=pd.read_csv("/Users/Evan/Desktop/ASDbiome/feature_table.txt", sep='\t')
-metadata=pd.read_csv("/Users/Evan/Desktop/ASDbiome/ASDmetadata.txt", sep='\t')
+folder='Haar-Like-Metric-Learning/Raw_data/ASD'
+
+featuretable=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/ASD/otus.txt", sep='\t')
+metadata=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/ASD/metadata.txt", sep='\t')
 label='diagnosis'
 labeltype='classification'
-tree = Tree("/Users/Evan/Sparsify_Ultrametric/raw_data/97_otus_unannotated.tree",format=1)
-haarlike=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97haarlike.npz')
-pseudodiag=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97pseudodiag.npz')
+tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
+haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
+pseudodiag=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97pseudodiag.npz')
 lambdav=scipy.sparse.csr_matrix.diagonal(pseudodiag)
 
-[X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
+[X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 X=X.div(X.sum(axis=1), axis=0)
 model = AdaptiveHaarLike(labeltype)
 clf=RandomForestRegressor(n_estimators=500,bootstrap=True,min_samples_leaf=1)
@@ -32,11 +36,11 @@ model.fit(clf,X,Y,50,mags)
 
 
 plt.imshow(model.rfgram.todense(),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/rfgram')
+#plt.savefig(folder+'/rfgram')
 plt.imshow(model.Reconstruct(mags,3),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct3')
+#plt.savefig(folder+'/reconstruct3')
 plt.imshow(model.Reconstruct(mags,50),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct50')
+#plt.savefig(folder+'/reconstruct50')
 
 ys=model.importances
 
@@ -61,7 +65,7 @@ ax.plot(xs, ys, '.', label="Haar-like Importances")
 ax.plot(xs, monoExp(xs, m, t, b), '--', label="Exponential Fit")
 ax.legend()
 plt.title("Haar-like Coordinate Importance Decay")
-plt.savefig(folder+'/importances')
+#plt.savefig(folder+'/importances')
 # inspect the parameters
 print(f"Y = {m} * e^(-{t} * x) + {b}")
 print(f"Tau = {tauSec * 1e6} µs")
@@ -70,20 +74,20 @@ print(f"Tau = {tauSec * 1e6} µs")
 
 Dunifrac=np.load(folder+'/unifracsort.npy')
 permanova(DistanceMatrix(Dunifrac),Y.values)
-Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='UniFrac',save=True,path=folder+'/unifracplot')
+plotters.Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='UniFrac',save=False,path=False)
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
 permanova(DistanceMatrix(Dwunifrac),Y.values)
-Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='Weighted UniFrac',save=True,path=folder+'/wunifracplot')
+plotters.Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='Weighted UniFrac',save=False,path=False)
 [Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
 permanova(DistanceMatrix(Dhaar),Y.values)
-Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='Haar-like Distance',save=True,path=folder+'/haardistplot')
+plotters.Unifracplot3d(D,dic=dic,y=Y.values,tasktype='classification',title='Haar-like Distance',save=False,path=False)
 
 Dadapthaar=scipy.spatial.distance_matrix(model.ReconstructCoord(mags,3).T,model.ReconstructCoord(mags,3).T)
 permanova(DistanceMatrix(Dadapthaar),Y.values)
 
-biplot3d(model,mags,Y.values.astype(float),'classification',dic,k=3,n=3,save=True,path=folder+'/biplot')
-#biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=10,n=3,save=True,path=folder+'/biplotnormalized')
+plotters.biplot3d(model,mags,Y.values.astype(float),'classification',dic,k=3,n=3,save=False,path=False)
+#biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=10,n=3,save=False,path=False)
 
-boxplot(mags,Y.values,model.coordinates[0:3],dic,dic.keys(),True,'/Users/Evan/Desktop/AdaptHaarFigs/ASD/boxplot')
+plotters.boxplot(mags,Y.values,model.coordinates[0:3],dic,dic.keys(),False,False)
 
 
