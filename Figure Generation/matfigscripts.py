@@ -72,7 +72,7 @@ print(f"Y = {m} * e^(-{t} * x) + {b}")
 
 truedist=scipy.spatial.distance_matrix(Y.values[:,np.newaxis],Y.values[:,np.newaxis])
 
-plotters.Dunifrac=np.load(folder+'/unifracsort.npy')
+Dunifrac=np.load(folder+'/unifracsort.npy')
 utils.dcor(truedist,Dunifrac)
 plotters.Unifracplot2d(Dunifrac,dic=None,y=Y.values,tasktype='regression',title='UniFrac',save=False,path=folder+'/unifracplot')
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
