@@ -27,8 +27,8 @@ Next we map the given feature table onto the reference phylogeny and sort by the
 import pandas as pd
 from ete3 import Tree
 from AdaptiveHaarLike import utils
-featuretable=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/costello.txt", sep='\t')
-metadata=pd.read_csv("Haar-Like-Metric-Learning/CostelloBodySites/metadata.txt", sep='\t')
+featuretable=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/otus.txt", sep='\t')
+metadata=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/metadata.txt", sep='\t')
 label='host_body_habitat'
 labeltype='classification'
 tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
