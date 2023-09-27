@@ -5,21 +5,13 @@ Created on Fri Aug 18 10:18:43 2023
 
 @author: Evan
 """
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Aug 17 14:54:20 2023
 
-@author: Evan
-"""
 import pandas as pd
 import scipy as scipy
 import scipy.sparse
 import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
-from skbio import DistanceMatrix
-from skbio.stats.distance import permanova
 from sklearn.ensemble import RandomForestRegressor
 
 
@@ -84,21 +76,21 @@ print(f"Y = {m} * e^(-{t} * x) + {b}")
 truedist=scipy.spatial.distance_matrix(Y.values[:,np.newaxis],Y.values[:,np.newaxis])
 
 Dunifrac=np.load(folder+'/unifracsort.npy')
-dcor(truedist,Dunifrac)
-Unifracplot2d(Dunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='UniFrac',save=False,path=folder+'/unifracplot')
+utils.dcor(truedist,Dunifrac)
+plotters.Unifracplot2d(Dunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='UniFrac',save=False,path=folder+'/unifracplot')
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
-dcor(truedist,Dwunifrac)
-Unifracplot2d(Dwunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='Weighted UniFrac',save=False,path=folder+'/wunifracplot')
+utils.dcor(truedist,Dwunifrac)
+plotters.Unifracplot2d(Dwunifrac,dic=None,y=np.log(Y.values),tasktype='regression',title='Weighted UniFrac',save=False,path=folder+'/wunifracplot')
 [Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
-dcor(truedist,Dhaar)
-Unifracplot2d(Dhaar,dic=None,y=np.log(Y.values),tasktype='regression',title='Haar-like Distance',save=False,path=folder+'/haardistplot')
+utils.dcor(truedist,Dhaar)
+plotters.Unifracplot2d(Dhaar,dic=None,y=np.log(Y.values),tasktype='regression',title='Haar-like Distance',save=False,path=folder+'/haardistplot')
 
 
-dcor(truedist,scipy.spatial.distance_matrix(model.ReconstructCoord(mags,4).T,model.ReconstructCoord(mags,4).T))
+utils.dcor(truedist,scipy.spatial.distance_matrix(model.ReconstructCoord(mags,4).T,model.ReconstructCoord(mags,4).T))
 
 
-biplot2d(model,mags,np.log(Y.values.astype(float)),'regression',dic,k=4,n=4,save=False,path=False)
-magplot(mags,np.log(Y.values),model.coordinates[0:4],'Log Distance From Wellhead',False,False)
+plotters.biplot2d(model,mags,np.log(Y.values.astype(float)),'regression',dic,k=4,n=4,save=False,path=False)
+plotters.magplot(mags,np.log(Y.values),model.coordinates[0:4],'Log Distance From Wellhead',False,False)
 
 
 plt.scatter(np.linspace(1,len(Y),len(Y)),np.log(Y.values))
