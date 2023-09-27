@@ -11,17 +11,22 @@ import scipy.sparse
 import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 
-folder='/Users/Evan/Desktop/AdaptHaarFigs/Mat'
 
-featuretable=pd.read_csv("/Users/Evan/Desktop/soildepth/otu_table.txt", sep='\t')
-metadata=pd.read_csv("/Users/Evan/Desktop/soildepth/metadata.txt", sep='\t')
+from AdaptiveHaarLike import utils
+from AdaptiveHaarLike.model import AdaptiveHaarLike
+from AdaptiveHaarLike import plotters
+
+folder='Haar-Like-Metric-Learning/Raw_data/Mat'
+
+featuretable=pd.read_csv("folder"+"/otus.txt", sep='\t')
+metadata=pd.read_csv("folder"+"/metadata.txt", sep='\t')
 label='matdepthcryosectionmm'
 labeltype='regression'
-tree = Tree("/Users/Evan/Sparsify_Ultrametric/raw_data/97_otus_unannotated.tree",format=1)
-haarlike=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97haarlike.npz')
-pseudodiag=scipy.sparse.load_npz('/Users/Evan/Sparsify_Ultrametric/precomputed/97pseudodiag.npz')
+tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
+haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
+pseudodiag=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97pseudodiag.npz')
 lambdav=scipy.sparse.csr_matrix.diagonal(pseudodiag)
 
 [X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
@@ -31,11 +36,11 @@ clf.fit(X,Y)
 model.fit(clf,X,Y,50,mags)
 
 plt.imshow(model.rfgram.todense(),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/rfgram')
+#plt.savefig(folder+'/rfgram')
 plt.imshow(model.Reconstruct(mags,2),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct2')
+#plt.savefig(folder+'/reconstruct2')
 plt.imshow(model.Reconstruct(mags,50),vmin=0,vmax=.3,cmap='binary')
-plt.savefig(folder+'/reconstruct50')
+#plt.savefig(folder+'/reconstruct50')
 
 ys=model.importances
 
@@ -60,26 +65,26 @@ ax.plot(xs, ys, '.', label="Haar-like Importances")
 ax.plot(xs, monoExp(xs, m, t, b), '--', label="Exponential Fit")
 ax.legend()
 plt.title("Haar-like Coordinate Importance Decay")
-plt.savefig(folder+'/importances')
+#plt.savefig(folder+'/importances')
 # inspect the parameters
 print(f"Y = {m} * e^(-{t} * x) + {b}")
-print(f"Tau = {tauSec * 1e6} µs")
+#print(f"Tau = {tauSec * 1e6} µs")
 
 truedist=scipy.spatial.distance_matrix(Y.values[:,np.newaxis],Y.values[:,np.newaxis])
 
-Dunifrac=np.load(folder+'/unifracsort.npy')
-dcor(truedist,Dunifrac)
-Unifracplot2d(Dunifrac,dic=None,y=Y.values,tasktype='regression',title='UniFrac',save=True,path=folder+'/unifracplot')
+plotters.Dunifrac=np.load(folder+'/unifracsort.npy')
+utils.dcor(truedist,Dunifrac)
+plotters.Unifracplot2d(Dunifrac,dic=None,y=Y.values,tasktype='regression',title='UniFrac',save=False,path=folder+'/unifracplot')
 Dwunifrac=np.load(folder+'/wunifracsort.npy')
-dcor(truedist,Dwunifrac)
-Unifracplot2d(Dwunifrac,dic=None,y=Y.values,tasktype='regression',title='Weighted UniFrac',save=True,path=folder+'/wunifracplot')
+utils.dcor(truedist,Dwunifrac)
+plotters.Unifracplot2d(Dwunifrac,dic=None,y=Y.values,tasktype='regression',title='Weighted UniFrac',save=False,path=folder+'/wunifracplot')
 [Dhaar,modmags]=compute_Haar_dist(mags,lambdav)
-dcor(truedist,Dhaar)
-Unifracplot2d(Dhaar,dic=None,y=Y.values,tasktype='regression',title='Haar-like Distance',save=True,path=folder+'/haardistplot')
+utils.dcor(truedist,Dhaar)
+plotters.Unifracplot2d(Dhaar,dic=None,y=Y.values,tasktype='regression',title='Haar-like Distance',save=False,path=folder+'/haardistplot')
 
 
-dcor(truedist,scipy.spatial.distance_matrix(model.ReconstructCoord(mags,2).T,model.ReconstructCoord(mags,2).T))
+utils.dcor(truedist,scipy.spatial.distance_matrix(model.ReconstructCoord(mags,2).T,model.ReconstructCoord(mags,2).T))
 
 
-biplot2d(model,mags,Y.values.astype(float),'regression',dic,k=2,n=2,save=True,path=folder+'/biplot')
-magplot(mags,Y.values,model.coordinates[0:2],'Distance From Wellhead',True,folder+'/magplot')
+plotters.biplot2d(model,mags,Y.values.astype(float),'regression',dic,k=2,n=2,save=False,path=False)
+plotters.magplot(mags,Y.values,model.coordinates[0:2],'Distance From Wellhead',False,False)
