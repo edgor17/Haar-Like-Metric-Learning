@@ -21,8 +21,8 @@ from AdaptiveHaarLike import plotters
 
 folder='Haar-Like-Metric-Learning/Raw_data/Deepwater'
 
-featuretable=pd.read_csv("folder"+"/otus.txt", sep='\t')
-metadata=pd.read_csv("folder"+"/metadata.txt", sep='\t')
+featuretable=pd.read_csv(folder+"/otus.txt", sep='\t')
+metadata=pd.read_csv(folder+"/metadata.txt", sep='\t')
 label='distance'
 labeltype='regression'
 tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
@@ -35,7 +35,7 @@ X=X.div(X.sum(axis=1), axis=0)
 model = AdaptiveHaarLike(labeltype)
 clf=RandomForestRegressor(n_estimators=500,bootstrap=True,min_samples_leaf=11)
 clf.fit(X,Y)
-model.fit(clf,X,Y,10,mags)
+model.fit(clf,X,Y,50,mags)
 
 plt.imshow(model.rfgram.todense(),vmin=0,vmax=.3,cmap='binary')
 plt.savefig(folder+'/rfgram')
