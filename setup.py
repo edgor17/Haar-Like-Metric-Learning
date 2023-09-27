@@ -9,13 +9,13 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 setup(
-    name='Haar-Like-Metric-Learning',
-    url='https://github.com/edgor17/Haar-Like-Metric-Learning',
+    name='Haar-Like-Metric-Learning-testing',
+    url='https://github.com/edgor17/Haar-Like-Metric-Learning-testing',
     author='Evan Gorman',
     author_email='evan.gorman@colorado.edu',
     packages=['AdaptiveHaarLike'],
-    install_requires=['numpy','pandas','ete3','scipy','matplotlib','scikit-learn','seaborn'],
+    install_requires=['numpy','pandas','ete3','scipy','scikit-learn','tensorflow>=2.4.0','statsmodel'],
     version='0.1',
-    description='Adaptive Metric Learning for Metagenomics',
+    description='Adaptive Metric Learning for Metagenomics - testing',
     long_description=long_description
 )
