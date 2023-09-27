@@ -11,6 +11,10 @@ import scipy.sparse
 import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
+from skbio import DistanceMatrix
+from skbio.stats.distance import permanova
+from sklearn.ensemble import RandomForestClassifier
+
 
 from AdaptiveHaarLike import utils
 from AdaptiveHaarLike.model import AdaptiveHaarLike
