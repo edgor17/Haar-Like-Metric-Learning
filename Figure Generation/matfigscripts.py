@@ -11,7 +11,7 @@ import scipy.sparse
 import numpy as np
 from ete3 import Tree
 import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 
 
 from AdaptiveHaarLike import utils
@@ -20,8 +20,8 @@ from AdaptiveHaarLike import plotters
 
 folder='Haar-Like-Metric-Learning/Raw_data/Mat'
 
-featuretable=pd.read_csv("folder"+"/otus.txt", sep='\t')
-metadata=pd.read_csv("folder"+"/metadata.txt", sep='\t')
+featuretable=pd.read_csv(folder+"/otus.txt", sep='\t')
+metadata=pd.read_csv(folder+"/metadata.txt", sep='\t')
 label='matdepthcryosectionmm'
 labeltype='regression'
 tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
@@ -29,7 +29,7 @@ haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike
 pseudodiag=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97pseudodiag.npz')
 lambdav=scipy.sparse.csr_matrix.diagonal(pseudodiag)
 
-[X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
+[X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 model = AdaptiveHaarLike(labeltype)
 clf=RandomForestRegressor(n_estimators=500,bootstrap=True,min_samples_leaf=27)
 clf.fit(X,Y)
