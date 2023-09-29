@@ -68,7 +68,6 @@ print(list(dic.keys()))
 
 ## Results
 Having learned a Haar-like Gram matrix, we are now ready to plot the embedding. Here we set n=7 to plot the 7 dominant Haar-like coordinate loadings. 
-
 ```
 from AdaptiveHaarLike import plotters
 plotters.biplot3dnormalized(model,mags,Y.values.astype(float),'classification',dic,k=7,n=7,save=False,path=False)
