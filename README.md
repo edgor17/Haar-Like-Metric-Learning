@@ -11,7 +11,7 @@ pip install .
 
 # Tutorial for a Classification Type Dataset
 
-We first demonstrate our metric on a dataset from "Bacterial community variation in human body habitats across space and time." This data is publically available on QIITA (ID 449). For this example we will show how the Haar-like metric can distinguish between different body habitats that the samples were taken from. 
+We first demonstrate our metric on a dataset from "Bacterial community variation in human body habitats across space and time." This data is publically available on QIITA (ID 449). For this example we will show how the Haar-like metric can distinguish between samples from different body habitats. 
 
 ## Preprocessing
 First we need to generate a Haar-like basis for the phylogeny associated with this dataset. In this case, Greengenes 97 was the reference phylogeny. We use ete toolkit to process .nwk trees. Note that this step only needs to be done once for any phylogenetic tree. For convenience we include a precomputed Haar-like basis for Greengenes 97.
