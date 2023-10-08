@@ -1,0 +1,9 @@
+*.Rapp.history
+datasets/hmp/gg/otutable.txt
+datasets.tar.gz
+/manuscript
+*.RData
+/web/templates
+localreadme.txt
+tasks_local.txt
+/preprocessing

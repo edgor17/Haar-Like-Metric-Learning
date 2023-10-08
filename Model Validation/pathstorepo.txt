@@ -1,0 +1,17 @@
+feature_table	metadata
+bacteremia/gg/otutable.txt	bacteremia/task.txt
+david/gg/otutable.txt	david/task.txt
+cho/gg/otutable.txt	cho/task-control-ct-cecal.txt
+cho/gg/otutable.txt	cho/task-control-ct-fecal.txt
+cho/gg/otutable.txt	cho/task-penicillin-vancomycin-cecal.txt
+cho/gg/otutable.txt	cho/task-penicillin-vancomycin-fecal.txt
+gevers/gg/otutable.txt	gevers/task-ileum.txt
+gevers/gg/otutable.txt	gevers/task-rectum.txt
+sokol/gg/otutable.txt	sokol/task-healthy-cd.txt
+sokol/gg/otutable.txt	sokol/task-healthy-uc.txt
+hmp/gg/otutable.txt	hmp/task-sex.txt
+hmp/gg/otutable.txt	hmp/task-stool-tongue-paired.txt
+hmp/gg/otutable.txt	hmp/task-sub-supragingivalplaque-paired.txt
+yatsunenko/gg/otutable.txt	yatsunenko/task-malawi-venezuela.txt
+yatsunenko/gg/otutable.txt	yatsunenko/task-sex.txt
+kostic/gg/otutable.txt	kostic/task.txt
