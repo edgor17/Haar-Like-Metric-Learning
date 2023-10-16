@@ -49,7 +49,7 @@ model = AdaptiveHaarLike(labeltype)
 model.fit(clf,X,Y,10,mags)
 ```
 
-At this point we can compare the Random Forest Gram matrix to our learned Gram matrix
+At this point we can compare the Random Forest Gram matrix to our learned Gram matrix.
 
 ```
 import matplotlib.pyplot as plt
