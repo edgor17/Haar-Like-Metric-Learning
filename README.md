@@ -85,6 +85,6 @@ plotters.boxplot(mags,Y.values,model.coordinates[0:7],dic,dic.keys(),save=False,
 ![boxplot](https://github.com/edgor17/Haar-Like-Metric-Learning/assets/87628022/76fc8541-9867-4ea5-a60d-92589eca4c8b)
 
 
-This plot allows us to very clearly see which coordinates can distinguish which body habitats
+This plot allows us to very clearly see which coordinates can distinguish which body habitats.
 
 
