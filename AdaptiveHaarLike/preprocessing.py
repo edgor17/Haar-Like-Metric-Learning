@@ -188,8 +188,8 @@ def PreProcess(featuretable,metadata,labelname,labeltype,tree,haarlike):
 
         #match OTUs to leaves in the tree    
         for i in range(data.shape[1]):
-            num=data[0,i].astype(int)
-            name=num.astype(str)
+            num=data[0,i]
+            name=num
             leafloc=leaflist.index(name)
             for j in range(1,N+1):
                 abundvec[j-1,leafloc]=data[j,i]
@@ -242,7 +242,6 @@ def PreProcess(featuretable,metadata,labelname,labeltype,tree,haarlike):
     values=X.values   
     names=list(featuretable.iloc[0,:].values)
     names=np.array(names)
-    names=names.astype(int)
     look=np.vstack((names,values))
     abundvecs=Match_to_tree(look,tree)
     abunds=scipy.sparse.csr_matrix(abundvecs.T)
