@@ -26,14 +26,14 @@ Next we map the given feature table onto the reference phylogeny and sort by the
 ```
 import pandas as pd
 from ete3 import Tree
-from AdaptiveHaarLike import utils
+from AdaptiveHaarLike.preprocessing import PreProcess
 featuretable=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/otus.txt", sep='\t',dtype={x : 'str'  for x in ['#OTU ID']})
 metadata=pd.read_csv("Haar-Like-Metric-Learning/Raw_data/Costello/metadata.txt", sep='\t')
 label='host_body_habitat'
 labeltype='classification'
 tree = Tree("Haar-Like-Metric-Learning/raw_data/97_otus_unannotated.tree",format=1)
 haarlike=scipy.sparse.load_npz('Haar-Like-Metric-Learning/precomputed/97haarlike.npz')
-[X,Y,mags,dic]=utils.PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
+[X,Y,mags,dic]=PreProcess(featuretable,metadata,label,labeltype,tree,haarlike)
 ```
 
 ## Training 
