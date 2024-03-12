@@ -14,7 +14,7 @@ setup(
     author='Evan Gorman',
     author_email='evan.gorman@colorado.edu',
     packages=['AdaptiveHaarLike'],
-    install_requires=['numpy','pandas','ete3','scipy','matplotlib','scikit-learn','scikit-bio','seaborn'],
+    install_requires=['numpy','pandas','ete3','scipy>=1.10.2','matplotlib','scikit-learn','scikit-bio','seaborn'],
     version='0.1',
     description='Adaptive Metric Learning for Metagenomics',
     long_description=long_description
